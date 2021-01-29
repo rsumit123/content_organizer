@@ -1,0 +1,20 @@
+<style>
+li:not(:last-child) {
+    margin-bottom: 15px;
+}
+#txtbox {
+    font-size: 18pt;
+    height: 42px;
+    width : 300px;
+}
+</style>
+<h3>Content Organiser</h3>
+<form method="POST">
+    <ul>
+    <li><label>Heading: </label>  <input name="heading"></li>
+    <li><label>Sub Heading: </label><input name="sub"></li>
+    <li><label>Date: </label><input name="date"></li>
+    <li><label>Content: </label><input id="txtbox" name="content"></li>
+    <li><input type="submit"></li>
+</ul>
+</form>
