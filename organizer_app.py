@@ -27,6 +27,12 @@ def search():
 			for i in content[query]:
 				for items in content[query][i]:
 					toreturn.append(list(items.values())[0])
+		elif query=="all":
+			for h in content:
+				for s in content[h]:
+					for items in content[h][s]:
+						toreturn.append(list(items.values())[0])
+
 		
 			
 		else:
@@ -56,12 +62,12 @@ def search():
 ###########################################################################################
 @app.route('/')
 def my_form():
-	return flask.render_template('my_form.html')
+	return flask.render_template('my_form_alt.html')
 
 
 @app.route('/delete')
 def my_form_delete():
-	return flask.render_template('my_form_delete.html')
+	return flask.render_template('my_form_alt_delete.html')
 
 
 
@@ -119,6 +125,9 @@ def delete():
 		body = flask.request.form['content'].strip()
 		new_l = []
 		for l in content[heading][sub]:
+			# print(list(l.values())[0])
+			# print("+++++++++++++++++++++++++++++")
+			# print(body)
 			if list(l.keys())[0]==date and list(l.values())[0]==body:
 				found = True
 			else:
@@ -180,4 +189,4 @@ if __name__ == "__main__":
 	print(("** Starting flask server..."
 		"please wait until server has fully started"))
 	
-	app.run(host='0.0.0.0', port=8080,debug=True)
+	app.run(host='0.0.0.0', port=5000,debug=True)
