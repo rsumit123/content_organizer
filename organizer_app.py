@@ -11,7 +11,49 @@ import random
 app = flask.Flask(__name__)
 # content = json.loads(open('content.json').read())
 
+#endpoint for search
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+	if flask.request.method == "POST":
+		toreturn = []
+		query = flask.request.form['book'].lower().strip()
+		if query == "":
+			return []
+		with open('content.json','r') as w:
+			content = json.load(w)
+		head_and_sub = get_headings_and_subheadings()
 
+		if query in head_and_sub.keys():
+			for i in content[query]:
+				for items in content[query][i]:
+					toreturn.append(list(items.values())[0])
+		
+			
+		else:
+			for h in content:
+				for s in content[h]:
+					for items in content[h][s]:
+						if query.lower() in list(items.values())[0].lower():
+							toreturn.append(list(items.values())[0])
+
+			
+		
+
+
+		# data = ["Wow, such empty","no data here","Just a placeholder"]
+		# search by author or book
+		
+		# conn.commit()
+		# data = cursor.fetchall()
+		# # all in the search box will return all the tuples
+		# if len(data) == 0 and book == 'all': 
+		#     cursor.execute("SELECT name, author from Book")
+		#     conn.commit()
+		#     data = cursor.fetchall()
+
+		return flask.render_template('search.html', data=toreturn)
+	return flask.render_template('search.html')
+###########################################################################################
 @app.route('/')
 def my_form():
 	return flask.render_template('my_form.html')
@@ -113,6 +155,8 @@ def predict():
 		sub = flask.request.form['sub'].strip().lower()
 		date = flask.request.form['date'].strip().lower()
 		body = flask.request.form['content'].strip()
+		if heading=="" or sub=="" or date=="" or body=="":
+			return "Invalid data ,one or more fields are empty"
 
 
 		if heading in content:
@@ -136,4 +180,4 @@ if __name__ == "__main__":
 	print(("** Starting flask server..."
 		"please wait until server has fully started"))
 	
-	app.run(host='0.0.0.0', port=5000,debug=True)
+	app.run(host='0.0.0.0', port=8080,debug=True)
